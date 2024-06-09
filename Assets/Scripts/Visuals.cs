@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
+using Unity.VisualScripting;
 
 public class Visuals : MonoBehaviour
 {
@@ -14,6 +13,7 @@ public class Visuals : MonoBehaviour
     public Canvas canvas;
     public TMP_Text nameText;
     public TMP_Text descText;
+    public Image image;
     public DictionaryStorage dictionaryStorage;
 
     //check if animal present
@@ -21,12 +21,18 @@ public class Visuals : MonoBehaviour
     private Boolean active = true;
     private string animal = "Crocodile";
 
-    ARRaycastManager raycastManager;
+    public Button myButton;
+    private Boolean camMode;
+    public Sprite camSprite;
+    public Sprite infoSprite;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        raycastManager = GetComponent<ARRaycastManager>();
+        myButton.onClick.AddListener(OnClick);
+        camMode = true;
     }
 
     // Update is called once per frame
@@ -39,7 +45,38 @@ public class Visuals : MonoBehaviour
             descText.SetText(desc);
         } else
         {
+            myButton.image.sprite = camSprite;
+            camMode = true;
+            image.enabled = false;
             canvas.enabled = false;
         }
+    }
+    private Sprite TextureToSpriteConversion(Texture2D texture)
+    {
+        // Create a new Sprite from the Texture2D
+        return Sprite.Create(
+            texture,
+            new Rect(0.0f, 0.0f, texture.width, texture.height),
+            new Vector2(0.5f, 0.5f),
+            100.0f // Pixels per unit
+        );
+    }
+
+    void OnClick()
+    {
+        if (camMode)
+        {
+            myButton.image.sprite = infoSprite;
+            image.enabled = true;
+            image.sprite = TextureToSpriteConversion(dictionaryStorage.imageDict[animal]);
+            descText.SetText(dictionaryStorage.infoDict[animal]);
+        }
+        else
+        {
+            myButton.image.sprite = camSprite;
+            image.enabled = false;
+            descText.SetText(dictionaryStorage.descDict[animal]);
+        }
+        myButton.onClick.RemoveListener(OnClick);
     }
 }
