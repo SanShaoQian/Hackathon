@@ -11,13 +11,15 @@ public class Visuals : MonoBehaviour
 {
     //text
     [SerializeField]
-    public GameObject dialogBox;
-    public TMP_Text dialogText;
-    private Dictionary<String,String> descDict = new Dictionary<String,String>();
+    public Canvas canvas;
+    public TMP_Text nameText;
+    public TMP_Text descText;
+    public DictionaryStorage dictionaryStorage;
 
-    //check if plant or animal present
-    public Boolean active = true;
-    private string species = "monkey";
+    //check if animal present
+    //from image recognition
+    private Boolean active = true;
+    private string animal = "Crocodile";
 
     ARRaycastManager raycastManager;
 
@@ -30,31 +32,14 @@ public class Visuals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
-        var hits = new List<ARRaycastHit>();
-
-        if (raycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinBounds))
+        if (active && dictionaryStorage.descDict.TryGetValue(animal, out string desc))
         {
-            if (hits.Count > 0)
-            {
-                //crosshair.transform.position = hits[0].pose.position;
-                //crosshair.transform.rotation = hits[0].pose.rotation;
-            }
-        }
-
-        if (active && descDict.TryGetValue(species, out string desc))
+            canvas.enabled = true;
+            nameText.SetText(animal);
+            descText.SetText(desc);
+        } else
         {
-            //Instantiate(objectToSpawn, crosshair.transform.position, crosshair.transform.rotation);
-
-            if (dialogBox.activeInHierarchy)
-            {
-                dialogBox.SetActive(false);
-            }
-            else
-            {
-                dialogBox.SetActive(true);
-                dialogText.SetText(desc);
-            }
+            canvas.enabled = false;
         }
     }
 }
