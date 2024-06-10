@@ -26,3 +26,5 @@ Welcome to our project! This AR application with advanced image recognition capa
 4. GitHub
 
 ## Licensing (if any)
+Pictures and information are taken from Wikipedia Creative Commons
+Information from http://ielc.libguides.com/sdzg/factsheets/
