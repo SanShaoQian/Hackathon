@@ -13,7 +13,9 @@ public class Visuals : MonoBehaviour
     [SerializeField]
     public Canvas canvas;
     public TMP_Text nameText;
+    public GameObject descBox;
     public TMP_Text infoText;
+    public GameObject tableBox;
     public TMP_Text country;
     public TMP_Text habitat;
     public TMP_Text advisory;
@@ -44,15 +46,16 @@ public class Visuals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(dictionaryStorage.animals.Contains(animal));
-        if (active && dictionaryStorage.animals.Contains(animal))
+        if (active && dictionaryStorage.infoDict.TryGetValue(animal, out string a))
         {
-            Debug.Log("in");
-            canvas.enabled = true;
-            CameraMode();
+            if (!canvas.enabled)
+            {
+                canvas.enabled = true;
+                nameText.SetText(animal);
+                CameraMode();
+            }
         } else
         {
-            CameraMode();
             canvas.enabled = false;
         }
     }
@@ -69,7 +72,6 @@ public class Visuals : MonoBehaviour
 
     void OnClick()
     {
-        Debug.Log("button clicked");
         if (camMode)
         {
             InformationMode();
@@ -83,8 +85,11 @@ public class Visuals : MonoBehaviour
     public void CameraMode()
     {
         camMode = true;
+        nameText.SetText(animal);
         myButton.image.sprite = infoSprite;
         image.enabled = false;
+        tableBox.SetActive(true);
+        descBox.SetActive(false);
         country.SetText(dictionaryStorage.tableDict[animal][0]);
         habitat.SetText(dictionaryStorage.tableDict[animal][1]);
         advisory.SetText(dictionaryStorage.tableDict[animal][2]);
@@ -93,9 +98,15 @@ public class Visuals : MonoBehaviour
     public void InformationMode()
     {
         camMode = false;
+        nameText.SetText(animal);
         image.enabled = true;
         myButton.image.sprite = camSprite;
-        image.sprite = TextureToSpriteConversion(dictionaryStorage.imageDict[animal]);
+        if (dictionaryStorage.imageDict.TryGetValue(animal, out Texture2D texture))
+        {
+            image.sprite = TextureToSpriteConversion(texture);
+        }
+        tableBox.SetActive(false);
+        descBox.SetActive(true);
         infoText.SetText(dictionaryStorage.infoDict[animal]);
     }
 }

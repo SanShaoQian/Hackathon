@@ -13,20 +13,18 @@ public class DictionaryStorage : MonoBehaviour
     //all keys are animal name
     public Dictionary<String, String[]> tableDict = new Dictionary<String, String[]>(); 
     public Dictionary<String, String> infoDict = new Dictionary<String, String>(); 
-    public Dictionary<String, Texture2D> imageDict = new Dictionary<string, Texture2D>();
-    public String[] animals;
+    public Dictionary<String, Texture2D> imageDict = new Dictionary<String, Texture2D>();
    
     private void Start()
     {
-        animals = Resources.Load<UnityEngine.TextAsset>("Animals").text.Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-        foreach (String anim in animals)
+        Texture2D image;
+        string[] animals = Resources.Load<UnityEngine.TextAsset>("Animals").text.Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        foreach (string anim in animals)
         { 
-            Texture2D image = Resources.Load<Texture2D>("Images/" + anim + ".jpg");
+            image = Resources.Load<Texture2D>(anim.Trim());
             if (image != null)
             {
-                Debug.Log("in");
-                imageDict.Add(anim, image);
-                Debug.Log(anim);
+                imageDict[anim.Trim()] = image;
             }
         }
         string[] text = Resources.Load<UnityEngine.TextAsset>("Text").text.Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
