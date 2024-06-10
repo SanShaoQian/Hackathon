@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using Unity.VisualScripting;
+using System.Linq;
 
 public class Visuals : MonoBehaviour
 {
@@ -12,19 +13,22 @@ public class Visuals : MonoBehaviour
     [SerializeField]
     public Canvas canvas;
     public TMP_Text nameText;
-    public TMP_Text descText;
+    public TMP_Text infoText;
+    public TMP_Text country;
+    public TMP_Text habitat;
+    public TMP_Text advisory;
     public Image image;
     public DictionaryStorage dictionaryStorage;
 
     //check if animal present
     //from image recognition
     private Boolean active = true;
-    private string animal = "Crocodile";
+    private String animal = "Red panda";
 
     public Button myButton;
     private Boolean camMode;
-    public Sprite camSprite;
-    public Sprite infoSprite;
+    private Sprite camSprite;
+    private Sprite infoSprite;
 
 
 
@@ -33,21 +37,22 @@ public class Visuals : MonoBehaviour
     {
         myButton.onClick.AddListener(OnClick);
         camMode = true;
+        camSprite = Resources.Load<Sprite>("Camera");
+        infoSprite = Resources.Load<Sprite>("Information");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (active && dictionaryStorage.descDict.TryGetValue(animal, out string desc))
+        Debug.Log(dictionaryStorage.animals.Contains(animal));
+        if (active && dictionaryStorage.animals.Contains(animal))
         {
+            Debug.Log("in");
             canvas.enabled = true;
-            nameText.SetText(animal);
-            descText.SetText(desc);
+            CameraMode();
         } else
         {
-            myButton.image.sprite = camSprite;
-            camMode = true;
-            image.enabled = false;
+            CameraMode();
             canvas.enabled = false;
         }
     }
@@ -64,19 +69,33 @@ public class Visuals : MonoBehaviour
 
     void OnClick()
     {
+        Debug.Log("button clicked");
         if (camMode)
         {
-            myButton.image.sprite = infoSprite;
-            image.enabled = true;
-            image.sprite = TextureToSpriteConversion(dictionaryStorage.imageDict[animal]);
-            descText.SetText(dictionaryStorage.infoDict[animal]);
+            InformationMode();
         }
         else
         {
-            myButton.image.sprite = camSprite;
-            image.enabled = false;
-            descText.SetText(dictionaryStorage.descDict[animal]);
+            CameraMode();
         }
-        myButton.onClick.RemoveListener(OnClick);
+    }
+
+    public void CameraMode()
+    {
+        camMode = true;
+        myButton.image.sprite = infoSprite;
+        image.enabled = false;
+        country.SetText(dictionaryStorage.tableDict[animal][0]);
+        habitat.SetText(dictionaryStorage.tableDict[animal][1]);
+        advisory.SetText(dictionaryStorage.tableDict[animal][2]);
+    }
+
+    public void InformationMode()
+    {
+        camMode = false;
+        image.enabled = true;
+        myButton.image.sprite = camSprite;
+        image.sprite = TextureToSpriteConversion(dictionaryStorage.imageDict[animal]);
+        infoText.SetText(dictionaryStorage.infoDict[animal]);
     }
 }
