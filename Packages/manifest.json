@@ -1,10 +1,16 @@
 {
   "dependencies": {
+    "com.github.asus4.mediapipe": "2.16.1-p1",
+    "com.github.asus4.texture-source": "0.3.0",
+    "com.github.asus4.tflite": "2.16.1-p1",
+    "com.github.asus4.tflite.common": "2.16.1-p1",
+    "com.unity.barracuda": "3.0.0",
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.28",
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.ide.vscode": "1.2.5",
+    "com.unity.render-pipelines.universal": "12.1.15",
     "com.unity.test-framework": "1.1.33",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.6.5",
@@ -12,6 +18,7 @@
     "com.unity.visualscripting": "1.9.4",
     "com.unity.xr.arcore": "4.2.10",
     "com.unity.xr.arfoundation": "4.2.10",
+    "com.unity.xr.openxr": "1.10.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -43,5 +50,21 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.cysharp.unitask"
+      ]
+    },
+    {
+      "name": "npm",
+      "url": "https://registry.npmjs.com",
+      "scopes": [
+        "com.github.asus4"
+      ]
+    }
+  ]
 }
