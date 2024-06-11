@@ -36,6 +36,7 @@ public class Visuals : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canvas.enabled = false;
         myButton.onClick.AddListener(OnClick);
         camMode = true;
         camSprite = Resources.Load<Sprite>("Camera");
