@@ -24,7 +24,7 @@ public class Visuals : MonoBehaviour
     //check if animal present
     //from image recognition
     public ObjectDetector detector;
-    private string animal;
+    private string animal = "";
 
     public Button myButton;
     private Boolean camMode;
@@ -38,7 +38,6 @@ public class Visuals : MonoBehaviour
     {
         canvas.enabled = false;
         myButton.onClick.AddListener(OnClick);
-        camMode = true;
         camSprite = Resources.Load<Sprite>("Camera");
         infoSprite = Resources.Load<Sprite>("Information");
     }
@@ -46,12 +45,9 @@ public class Visuals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (detector.getDetectionResults() == "")
-        {
-            return;
-        }
         String animal = detector.getDetectionResults();
-        if (dictionaryStorage.infoDict.TryGetValue(animal, out string a))
+        Debug.Log("animal on canvas is" + animal);
+        if (animal != "")
         {
             if (!canvas.enabled)
             {
