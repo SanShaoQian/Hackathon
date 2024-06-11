@@ -37,7 +37,7 @@ public class Visuals : MonoBehaviour
     void Start()
     {
         myButton.onClick.AddListener(OnClick);
-        camMode = true;
+        canvas.enabled = false;
         camSprite = Resources.Load<Sprite>("Camera");
         infoSprite = Resources.Load<Sprite>("Information");
     }
@@ -47,20 +47,19 @@ public class Visuals : MonoBehaviour
     {
         if (detector.getDetectionResults() == "")
         {
+            Debug.Log("No animal detected");
+            canvas.enabled = false;
             return;
         }
-        String animal = detector.getDetectionResults();
-        if (dictionaryStorage.infoDict.TryGetValue(animal, out string a))
+        animal = detector.getDetectionResults();
+
+        nameText.SetText(animal);
+        Debug.Log("Animal detected as " + animal);
+        if (!canvas.enabled)
         {
-            if (!canvas.enabled)
-            {
-                canvas.enabled = true;
-                nameText.SetText(animal);
-                CameraMode();
-            }
-        } else
-        {
-            canvas.enabled = false;
+            canvas.enabled = true;
+
+            CameraMode();
         }
     }
     private Sprite TextureToSpriteConversion(Texture2D texture)

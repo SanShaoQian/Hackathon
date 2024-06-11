@@ -10,7 +10,8 @@ public class ObjectDetector : MonoBehaviour
 {
     public NNModel _model;
     public Texture2D _image;
-    //public UI.RawImage _imageView;
+    public UI.RawImage _imageView;
+    public UI.RawImage _imageReceived;
     public CameraFeed _cameraFeed;
 
     private string detectedAnimal;
@@ -33,15 +34,16 @@ public class ObjectDetector : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Starting object detection...");
+        Debug.Log("Starting object detection with CsharpBurst2... ");
 
         // Load the model and create a worker
         _runtimeModel = ModelLoader.Load(_model);
-        _worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, _runtimeModel);
+        _worker = WorkerFactory.CreateWorker(WorkerFactory.Type.CSharpBurst, _runtimeModel);
     }
 
     public string getDetectionResults()
     {
+        Debug.Log("Sending animal as " + detectedAnimal);
         return detectedAnimal;
     }
     void Update()
@@ -59,11 +61,17 @@ public class ObjectDetector : MonoBehaviour
 
         // Get the latest frame from the CameraFeed script
         Texture2D cameraTexture = _cameraFeed.GetCameraTexture();
+        _imageReceived.texture = cameraTexture;
 
         if (cameraTexture != null)
         {
             // Resize the image to the model's input size and create a Tensor
             var resizedTexture = ResizedTexture(cameraTexture, _resizeLength, _resizeLength);
+            Color[] pixels = resizedTexture.GetPixels();
+            for (int i = 0; i < 10; i++)
+            {
+                Debug.Log("Pixel " + i + "R" + pixels[i].r + "G" + pixels[i].g + "B"+ pixels[i].b);
+            }
             Tensor inputTensor = new Tensor(resizedTexture, channels: 3);
 
             Debug.Log($"Input Tensor Shape: {inputTensor.shape}");
@@ -74,8 +82,12 @@ public class ObjectDetector : MonoBehaviour
             // Retrieve and process the model output
             Tensor output0 = _worker.PeekOutput("Identity");
             Debug.Log($"Output Tensor Shape: {output0.shape}");
-
-            List<DetectionResult> detections = ParseOutputs(output0, 0.5f, 0.75f);
+            Debug.Log("Tensor output is...");
+            for (int i = 0; i < 84; i++)
+            {
+                Debug.Log($"output0[0, 0, {i}, 0]: {output0[0, 0, i, 0]}");
+            }
+            List<DetectionResult> detections = ParseOutputs(output0, 0.3f, 0.75f);
 
             // Cleanup resources
             inputTensor.Dispose();
@@ -86,7 +98,7 @@ public class ObjectDetector : MonoBehaviour
             float scaleY = cameraTexture.height / (float)_resizeLength;
 
             // Create a clone of the original image for visualization
-            var displayTexture = ResizedTexture(cameraTexture, cameraTexture.width, cameraTexture.height);
+            var displayTexture = ResizedTexture(resizedTexture, cameraTexture.width, cameraTexture.height);
 
             // Mapping colors to classes
             Dictionary<int, Color> colorMap = new Dictionary<int, Color>();
@@ -100,14 +112,14 @@ public class ObjectDetector : MonoBehaviour
                 detectedAnimal = _labels[detection.classId - 4];
                 // Assign or retrieve color for this class
                 Color color;
-                if (colorMap.ContainsKey(detection.classId))
+                if (colorMap.ContainsKey(detection.classId - 4))
                 {
-                    color = colorMap[detection.classId];
+                    color = colorMap[detection.classId - 4];
                 }
                 else
                 {
                     color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                    colorMap[detection.classId] = color;
+                    colorMap[detection.classId - 4] = color;
                 }
 
                 // Draw detected rectangles on the image
@@ -123,7 +135,7 @@ public class ObjectDetector : MonoBehaviour
             displayTexture.Apply();
 
             // Display the result
-            //_imageView.texture = displayTexture;
+            _imageView.texture = displayTexture;
 
             Debug.Log("Object detection completed.");
         }
