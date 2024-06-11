@@ -9,7 +9,6 @@ using System.Linq;
 
 public class Visuals : MonoBehaviour
 {
-    //text
     [SerializeField]
     public Canvas canvas;
     public TMP_Text nameText;
@@ -61,12 +60,11 @@ public class Visuals : MonoBehaviour
     }
     private Sprite TextureToSpriteConversion(Texture2D texture)
     {
-        // Create a new Sprite from the Texture2D
         return Sprite.Create(
             texture,
             new Rect(0.0f, 0.0f, texture.width, texture.height),
             new Vector2(0.5f, 0.5f),
-            100.0f // Pixels per unit
+            100.0f
         );
     }
 
@@ -90,9 +88,18 @@ public class Visuals : MonoBehaviour
         image.enabled = false;
         tableBox.SetActive(true);
         descBox.SetActive(false);
-        country.SetText(dictionaryStorage.tableDict[animal][0]);
-        habitat.SetText(dictionaryStorage.tableDict[animal][1]);
-        advisory.SetText(dictionaryStorage.tableDict[animal][2]);
+        if (dictionaryStorage.tableDict.TryGetValue(animal, out string[] array))
+        {
+            country.SetText(array[0]);
+            habitat.SetText(array[1]);
+            advisory.SetText(array[2]);
+        }
+        else
+        {
+            country.SetText("");
+            habitat.SetText("");
+            advisory.SetText("");
+        }
     }
 
     public void InformationMode()
@@ -107,6 +114,9 @@ public class Visuals : MonoBehaviour
         }
         tableBox.SetActive(false);
         descBox.SetActive(true);
-        infoText.SetText(dictionaryStorage.infoDict[animal]);
+        if (dictionaryStorage.infoDict.TryGetValue(animal, out string a))
+        {
+            infoText.SetText(a);
+        }
     }
 }
