@@ -24,7 +24,7 @@ public class Visuals : MonoBehaviour
     //check if animal present
     //from image recognition
     public ObjectDetector detector;
-    private string animal;
+    private string animal = "";
 
     public Button myButton;
     private Boolean camMode;
@@ -36,6 +36,7 @@ public class Visuals : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canvas.enabled = false;
         myButton.onClick.AddListener(OnClick);
         canvas.enabled = false;
         camSprite = Resources.Load<Sprite>("Camera");
