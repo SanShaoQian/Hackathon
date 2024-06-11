@@ -183,6 +183,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &34423285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34423287}
+  - component: {fileID: 34423286}
+  m_Layer: 0
+  m_Name: Object Detector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &34423286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34423285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad0d783a1997a8349aad9d6638f9dc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _model: {fileID: 5022602860645237092, guid: c43deae56f6eaf7449a20227c08e7ab9, type: 3}
+  _image: {fileID: 2800000, guid: 60225ab9b1e0bdc47877545b415160d5, type: 3}
+  _cameraFeed: {fileID: 1948632264}
+--- !u!4 &34423287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34423285}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.406908, y: 258.29865, z: 167.7537}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &51861303
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,6 +1040,62 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &809292379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 809292381}
+  - component: {fileID: 809292380}
+  m_Layer: 0
+  m_Name: Visuals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &809292380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809292379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3863d285d148a59429e7429ed84bffd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 1394586797}
+  nameText: {fileID: 468161734}
+  descBox: {fileID: 821618120}
+  infoText: {fileID: 223350172}
+  tableBox: {fileID: 66323474}
+  country: {fileID: 1319513472}
+  habitat: {fileID: 640452622}
+  advisory: {fileID: 1654712859}
+  image: {fileID: 1696441477}
+  dictionaryStorage: {fileID: 1573566410}
+  detector: {fileID: 34423286}
+  myButton: {fileID: 191618414}
+--- !u!4 &809292381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809292379}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.406908, y: 258.29865, z: 167.7537}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &821618120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,20 +2299,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1948632257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3863d285d148a59429e7429ed84bffd3, type: 3}
+  m_Script: {fileID: 11500000, guid: c460360938831704cbd511d9c01417d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1394586797}
-  nameText: {fileID: 468161734}
-  descBox: {fileID: 821618120}
-  infoText: {fileID: 223350172}
-  tableBox: {fileID: 66323474}
-  country: {fileID: 1319513472}
-  habitat: {fileID: 640452622}
-  advisory: {fileID: 1654712859}
-  image: {fileID: 1696441477}
-  dictionaryStorage: {fileID: 1573566410}
-  myButton: {fileID: 191618414}
+  testImage: {fileID: 2800000, guid: 60225ab9b1e0bdc47877545b415160d5, type: 3}
 --- !u!1 &2084965177
 GameObject:
   m_ObjectHideFlags: 0

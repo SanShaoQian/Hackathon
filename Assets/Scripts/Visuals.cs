@@ -23,8 +23,8 @@ public class Visuals : MonoBehaviour
 
     //check if animal present
     //from image recognition
-    private Boolean active = true;
-    private String animal = "Red panda";
+    public ObjectDetector detector;
+    private string animal;
 
     public Button myButton;
     private Boolean camMode;
@@ -45,7 +45,12 @@ public class Visuals : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active && dictionaryStorage.infoDict.TryGetValue(animal, out string a))
+        if (detector.getDetectionResults() == "")
+        {
+            return;
+        }
+        String animal = detector.getDetectionResults();
+        if (dictionaryStorage.infoDict.TryGetValue(animal, out string a))
         {
             if (!canvas.enabled)
             {

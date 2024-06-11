@@ -10,9 +10,10 @@ public class ObjectDetector : MonoBehaviour
 {
     public NNModel _model;
     public Texture2D _image;
-    public UI.RawImage _imageView;
+    //public UI.RawImage _imageView;
     public CameraFeed _cameraFeed;
 
+    private string detectedAnimal;
     private IWorker _worker;
     private Model _runtimeModel;
 
@@ -39,6 +40,10 @@ public class ObjectDetector : MonoBehaviour
         _worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, _runtimeModel);
     }
 
+    public string getDetectionResults()
+    {
+        return detectedAnimal;
+    }
     void Update()
     {
         if (_worker == null)
@@ -85,11 +90,14 @@ public class ObjectDetector : MonoBehaviour
 
             // Mapping colors to classes
             Dictionary<int, Color> colorMap = new Dictionary<int, Color>();
-
+            if (detections.Count == 0)
+            {
+                detectedAnimal = "";
+            }
             foreach (DetectionResult detection in detections)
             {
                 Debug.Log($"Detected {_labels[detection.classId - 4]} with confidence {detection.score:0.00}");
-
+                detectedAnimal = _labels[detection.classId - 4];
                 // Assign or retrieve color for this class
                 Color color;
                 if (colorMap.ContainsKey(detection.classId))
@@ -115,7 +123,7 @@ public class ObjectDetector : MonoBehaviour
             displayTexture.Apply();
 
             // Display the result
-            _imageView.texture = displayTexture;
+            //_imageView.texture = displayTexture;
 
             Debug.Log("Object detection completed.");
         }
@@ -148,7 +156,7 @@ public class ObjectDetector : MonoBehaviour
             // Check if the detection meets the score threshold
             if (result.score < threshold)
             {
-                Debug.Log("Result"+ result.score);
+                //Debug.Log("Result"+ result.score);
                 continue;
             }
 
