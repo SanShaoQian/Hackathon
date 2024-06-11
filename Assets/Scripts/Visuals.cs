@@ -42,20 +42,29 @@ public class Visuals : MonoBehaviour
         camSprite = Resources.Load<Sprite>("Camera");
         infoSprite = Resources.Load<Sprite>("Information");
     }
+    int frameCount = 0;
+    private void Update()
+    {
+        frameCount++;
+        if (frameCount > 9)
+        {
+            frameCount = 0;
+            VUpdate();
+        }
+  
+    }
 
     // Update is called once per frame
-    void Update()
+    void VUpdate()
     {
         if (detector.getDetectionResults() == "")
         {
-            Debug.Log("No animal detected");
             canvas.enabled = false;
             return;
         }
         animal = detector.getDetectionResults();
 
         nameText.SetText(animal);
-        Debug.Log("Animal detected as " + animal);
         if (!canvas.enabled)
         {
             canvas.enabled = true;

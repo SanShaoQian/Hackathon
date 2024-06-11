@@ -10,8 +10,8 @@ public class ObjectDetector : MonoBehaviour
 {
     public NNModel _model;
     public Texture2D _image;
-    public UI.RawImage _imageView;
-    public UI.RawImage _imageReceived;
+    //public UI.RawImage _imageView;
+    //public UI.RawImage _imageReceived;
     public CameraFeed _cameraFeed;
 
     private string detectedAnimal;
@@ -34,8 +34,6 @@ public class ObjectDetector : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Starting object detection with CsharpBurst2... ");
-
         // Load the model and create a worker
         _runtimeModel = ModelLoader.Load(_model);
         _worker = WorkerFactory.CreateWorker(WorkerFactory.Type.CSharpBurst, _runtimeModel);
@@ -43,10 +41,11 @@ public class ObjectDetector : MonoBehaviour
 
     public string getDetectionResults()
     {
-        Debug.Log("Sending animal as " + detectedAnimal);
+        IUpdate();
         return detectedAnimal;
     }
-    void Update()
+
+    void IUpdate()
     {
         if (_worker == null)
         {
@@ -61,7 +60,7 @@ public class ObjectDetector : MonoBehaviour
 
         // Get the latest frame from the CameraFeed script
         Texture2D cameraTexture = _cameraFeed.GetCameraTexture();
-        _imageReceived.texture = cameraTexture;
+        //_imageReceived.texture = cameraTexture;
 
         if (cameraTexture != null)
         {
@@ -74,19 +73,12 @@ public class ObjectDetector : MonoBehaviour
             }
             Tensor inputTensor = new Tensor(resizedTexture, channels: 3);
 
-            Debug.Log($"Input Tensor Shape: {inputTensor.shape}");
-
             // Execute inference
             _worker.Execute(inputTensor);
 
             // Retrieve and process the model output
             Tensor output0 = _worker.PeekOutput("Identity");
-            Debug.Log($"Output Tensor Shape: {output0.shape}");
-            Debug.Log("Tensor output is...");
-            for (int i = 0; i < 84; i++)
-            {
-                Debug.Log($"output0[0, 0, {i}, 0]: {output0[0, 0, i, 0]}");
-            }
+
             List<DetectionResult> detections = ParseOutputs(output0, 0.3f, 0.75f);
 
             // Cleanup resources
@@ -108,7 +100,6 @@ public class ObjectDetector : MonoBehaviour
             }
             foreach (DetectionResult detection in detections)
             {
-                Debug.Log($"Detected {_labels[detection.classId - 4]} with confidence {detection.score:0.00}");
                 detectedAnimal = _labels[detection.classId - 4];
                 // Assign or retrieve color for this class
                 Color color;
@@ -135,9 +126,8 @@ public class ObjectDetector : MonoBehaviour
             displayTexture.Apply();
 
             // Display the result
-            _imageView.texture = displayTexture;
+            //_imageView.texture = displayTexture;
 
-            Debug.Log("Object detection completed.");
         }
         else
         {
