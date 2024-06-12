@@ -66,17 +66,14 @@ public class CameraFeed : MonoBehaviour
     {
         if (testImage != null)
         {
-            Debug.Log("Returning the test image texture.");
             return testImage;
         }
         else if (arCameraManager != null)
         {
-            Debug.Log("Capturing the AR camera feed.");
             return CaptureARCameraImage();
         }
         else if (useWebCam)
         {
-            Debug.Log("Returning the webcam texture.");
             return ConvertWebCamToTexture2D();
         }
 

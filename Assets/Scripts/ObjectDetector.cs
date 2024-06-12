@@ -67,10 +67,6 @@ public class ObjectDetector : MonoBehaviour
             // Resize the image to the model's input size and create a Tensor
             var resizedTexture = ResizedTexture(cameraTexture, _resizeLength, _resizeLength);
             Color[] pixels = resizedTexture.GetPixels();
-            for (int i = 0; i < 10; i++)
-            {
-                Debug.Log("Pixel " + i + "R" + pixels[i].r + "G" + pixels[i].g + "B"+ pixels[i].b);
-            }
             Tensor inputTensor = new Tensor(resizedTexture, channels: 3);
 
             // Execute inference
@@ -257,7 +253,6 @@ public class ObjectDetector : MonoBehaviour
         RenderTexture.active = previousRt;
         RenderTexture.ReleaseTemporary(rt);
 
-        Debug.Log($"Resized texture to {width}x{height}");
         return resizedTexture;
     }
 }
