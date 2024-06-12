@@ -24,6 +24,7 @@ public class Visuals : MonoBehaviour
     //check if animal present
     //from image recognition
     public ObjectDetector detector;
+    private string prevAnimal = "";
     private string animal = "";
 
     public Button myButton;
@@ -63,14 +64,18 @@ public class Visuals : MonoBehaviour
             return;
         }
         animal = detector.getDetectionResults();
-
         nameText.SetText(animal);
         if (!canvas.enabled)
         {
             canvas.enabled = true;
-
             CameraMode();
         }
+        if (prevAnimal != animal)
+        {
+            CameraMode();
+        }
+        prevAnimal = animal;
+    
     }
     private Sprite TextureToSpriteConversion(Texture2D texture)
     {
