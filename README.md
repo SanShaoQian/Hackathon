@@ -21,7 +21,7 @@ Welcome to our project! This AR application with advanced image recognition capa
 2. Training our own model to detect animals
    
 ## What we learned
-1. Importance of early and continuous testing provided invaluable insights, helping us refine the app's interface and functionality to better meet user needs.2. Complexity of Real-Time Processing: Real-time image processing and AR integration present significant technical challenges, but with careful optimization and innovation, they can be effectively addressed.
+1. Importance of early and continuous testing which provided invaluable insights, helping us refine the app's interface and functionality to better meet user needs.2. Complexity of Real-Time Processing: Real-time image processing and AR integration present significant technical challenges, but with careful optimization and innovation, they can be effectively addressed.
 3. Balancing Performance and Resource Usage: Striking a balance between high performance and minimal battery/data consumption is crucial for user satisfaction and app sustainability.
 4. Educational Impact: The potential of AR technology to make learning interactive and engaging is immense, reinforcing the value of innovative approaches in education.
 ## What's next for MError
